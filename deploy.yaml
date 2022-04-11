@@ -18,8 +18,8 @@ spec:
         app: deploy1
     spec:
       containers:
-      - image: nginx
-        name: nginx
+      - image: samimbsnl/hello:latest
+        name: samimbsnl
         resources: {}
 status: {}
 ---
