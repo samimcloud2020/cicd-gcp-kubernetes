@@ -3,22 +3,42 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: deploy2
-  name: deploy2
+    app: deploy1
+  name: deploy1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: deploy2
+      app: deploy1
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: deploy2
+        app: deploy1
     spec:
       containers:
-      - image: gcr.io/genuine-fold-316617/sam:v1.0
-        name: sam
+      - image: nginx
+        name: nginx
         resources: {}
 status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: service1
+  name: service1
+spec:
+  ports:
+  - name: 8080-8080
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: service1
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+  
