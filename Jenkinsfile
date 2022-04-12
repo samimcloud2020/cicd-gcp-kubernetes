@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
-                        sh " docker pull samimbsnl/cicd:${env.BUILD_ID}
+                        sh " docker pull samimbsnl/cicd:${env.BUILD_ID}"
                     }
                 }
             }
