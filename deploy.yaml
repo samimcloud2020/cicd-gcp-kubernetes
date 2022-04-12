@@ -28,7 +28,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: service1
+    app: deploy1
   name: service1
 spec:
   ports:
