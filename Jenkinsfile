@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        VERSION=2.0.0
-        OS=linux  
-        ARCH=amd64  
+        VERSION = '2.0.0'
+        OS = 'linux'  
+        ARCH = 'amd64'  
         PROJECT_ID = 'genuine-fold-316617'
         CLUSTER_NAME = 'cluster1'
         LOCATION = 'us-central1-a'
