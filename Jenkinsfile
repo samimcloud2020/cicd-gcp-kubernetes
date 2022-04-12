@@ -32,7 +32,7 @@ pipeline {
          stage("Push image to GCR") {
             steps {
                 script {
-                    docker.withRegistry('https://us.gcr.io', 'gcr:[env.CREDENTIALS_ID]') {
+                    docker.withRegistry('https://us.gcr.io', 'gcr:multi-k8s') {
                             myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
