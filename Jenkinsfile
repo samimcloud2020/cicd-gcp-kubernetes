@@ -31,19 +31,16 @@ pipeline {
         }        
        stage('Build image Google') {
            steps {
-               script {
-                   myapp = docker.build("genuine-fold-316617/cicd")
+               sh "docker build -tag="gcr.io/genuine-fold-316617/samimcicd:v1.0.0" . -file=Dockerfile"
+                   
        }
-           }
        }
        stage('Push image to GCR') {
            steps {
-               script {
-                   docker.withRegistry("gcr:${env.PROJECT_ID}",  "https://gcr.io") {
-                          myapp.push("${env.BUILD_NUMBER}")
-                          myapp.push("latest")
-                   }
-               }
+               sh "docker push gcr.io/genuine-fold-316617/samimcicd:v1.0.0"
+                   
+                   
+               
           }
         }
         stage('Deploy to GKE') {
