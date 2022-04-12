@@ -37,10 +37,17 @@ pipeline {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
                         sh " docker pull samimbsnl/cicd:${env.BUILD_ID}"
+                        
+                    }
+                }
+            }
+        }
+        stage("Tag image to Dockerhub") {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
                         sh " docker tag samimbsnl/cicd:${env.BUILD_ID} gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}"
-                        sh " curl -fsSL "https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v${env.VERSION}/docker-credential-gcr_${env.OS}_${env.ARCH}-${env.VERSION}.tar.gz" | tar xz --to-stdout ./docker-credential-gcr > /usr/local/bin/docker-credential-gcr && chmod +x /usr/local/bin/docker-credential-gcr"
-                        sh "docker-credential-gcr configure-docker"     
-                        sh " docker push gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}"
+                        
                     }
                 }
             }
