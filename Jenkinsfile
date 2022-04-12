@@ -69,7 +69,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
-                        sh "gcloud run deploy deploy1 --image="gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}" --platform=managed --region=us-central1 --port=8080 --allow-unauthenticated"
+                        sh "gcloud run deploy deploy1 --image="gcr.io/genuine-fold-316617/cicd@sha256:a629154f5512c1b6da0b293e44ff3474a3c49b88833cdc43f7cc9115271831ba" --platform=managed --region=us-central1 --port=8080 --allow-unauthenticated"
                         sh "gcloud run services add-iam-policy-binding deploy1 --member="allUsers" --role="roles/run.invoker"" 
                 }
                 }
