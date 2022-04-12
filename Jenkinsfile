@@ -68,7 +68,7 @@ pipeline {
           stage("Attestation by BINAUTHZ") {
             steps {
                 script {
-                    sh " gcloud beta container binauthz attestations sign-and-create --artifact-url="gcr.io/genuine-fold-316617/cicd:${BUILD_ID}" --attestor="samim" --attestor-project="genuine-fold-316617" keyversion-project="genuine-fold-316617" --keyversion-location="global" --keyversion-keyring="keyring5" --keyversion-key="key5" --keyversion="1""
+                    sh " gcloud beta container binauthz attestations sign-and-create --artifact-url="gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}" --attestor="samim" --attestor-project="genuine-fold-316617" keyversion-project="genuine-fold-316617" --keyversion-location="global" --keyversion-keyring="keyring5" --keyversion-key="key5" --keyversion="1""
     
                 }
             }
