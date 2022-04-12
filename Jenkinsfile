@@ -29,16 +29,15 @@ pipeline {
                 }
             }
         }        
-         stage("Push image to GCR") {
+        stage('Push Image') {
             steps {
                 script {
-                    docker.withRegistry('https://us.gcr.io', 'gcr:multi-k8s') {
-                            myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
-                    }
+                    docker.withRegistry('https://gcr.io', 'gcr:env.CREDENTIALS_ID') {
+                        dockerImage.push()
                 }
             }
-        }        
+        }
+    }
         stage('Deploy to GKE') {
             steps{
                 sh "sed -i 's/cicd:latest/cicd:${env.BUILD_ID}/g' deploy.yaml"
