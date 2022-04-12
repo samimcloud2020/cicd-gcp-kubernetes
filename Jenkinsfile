@@ -19,7 +19,7 @@ pipeline {
                 }
             }
         }
-        stage("Push image") {
+        stage("Push image to Dockerhub") {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
@@ -29,7 +29,7 @@ pipeline {
                 }
             }
         }        
-         stage("Push image") {
+         stage("Push image to GCR") {
             steps {
                 script {
                     docker.withRegistry('https://us.gcr.io', 'multi-k8s') {
