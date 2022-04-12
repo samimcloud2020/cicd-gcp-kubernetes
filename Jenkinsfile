@@ -29,7 +29,7 @@ pipeline {
                 }
             }
         }        
-        stage('Push Image to GCR') {
+        stage('Push Image to GCR test') {
             sh "gcloud docker -- push us.gcr.io/genuine-fold-316617/cicd"
     }
         stage('Deploy to GKE') {
