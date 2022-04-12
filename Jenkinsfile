@@ -68,7 +68,7 @@ pipeline {
         stage('Deploy to cloudrun') {
             steps{
                 sh "sed -i 's/cicd:latest/cicd:${env.BUILD_ID}/g' deploy.yaml"
-                step([$class: 'CloudRunBuilder', projectId: env.PROJECT_ID, serviceName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deploy.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                step([$class: 'CloudRun.Builder', projectId: env.PROJECT_ID, serviceName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deploy.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
                 
             }
         }
