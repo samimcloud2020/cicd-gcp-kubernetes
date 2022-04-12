@@ -18,7 +18,7 @@ spec:
         app: deploy1
     spec:
       containers:
-      - image: genuine-fold-316617/cicd:latest
+      - image: samimbsnl/cicd:latest
         name: samimbsnl
         resources: {}
 status: {}
