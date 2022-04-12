@@ -56,9 +56,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
-                        sh " gcloud iam service-accounts create raja@genuine-fold-316617.iam.gserviceaccount.com"
-                        sh " gcloud projects add-iam-policy-binding genuine-fold-316617 --member "serviceAccount:raja@genuine-fold-316617.iam.gserviceaccount.com" --role "roles/owner"
-                        sh "gcloud iam service-accounts keys create keyfile.json --iam-account raja@genuine-fold-316617.iam.gserviceaccount.com"
+                        
+                        sh "gcloud iam service-accounts keys create keyfile.json --iam-account jenkinscicd@genuine-fold-316617.iam.gserviceaccount.com"
                         sh " gcloud auth activate-service-account raja@genuine-fold-316617.iam.gserviceaccount.com --key-file=keyfile.json"
                         sh " gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io"
                         sh " docker push gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}"
