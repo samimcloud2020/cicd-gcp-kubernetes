@@ -28,7 +28,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: deploy1
+    app: service1
   name: service1
 spec:
   ports:
@@ -37,7 +37,7 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    app: service1
+    app: deploy1
   type: LoadBalancer
 status:
   loadBalancer: {}
