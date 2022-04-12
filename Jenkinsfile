@@ -73,7 +73,8 @@ pipeline {
                         sh "gcloud run services add-iam-policy-binding deploy1 --member="allUsers" --role="roles/run.invoker"" 
                 }
                 }
-            
+            }
+          }
                 
 }
 }
