@@ -35,6 +35,7 @@ pipeline {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
                         sh " docker pull samimbsnl/cicd:${env.BUILD_ID}"
                         sh " docker tag samimbsnl/cicd:${env.BUILD_ID} gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}"
+                        sh " gcloud auth login"
                         sh " docker push gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}"
                     }
                 }
