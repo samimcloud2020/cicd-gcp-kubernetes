@@ -30,12 +30,20 @@ pipeline {
             }
         }        
        stage('Build image Google') {
-           app = docker.build("genuine-fold-316617/cicd")
+           steps {
+               script {
+                   myapp = docker.build("genuine-fold-316617/cicd")
+       }
+           }
        }
        stage('Push image to GCR') {
-           docker.withRegistry('https://us.gcr.io', 'gcr:[multi-k8s]') {
-                app.push("${env.BUILD_NUMBER}")
-                app.push("latest")
+           steps {
+               script {
+                   docker.withRegistry('https://us.gcr.io', 'gcr:[multi-k8s]') {
+                          myapp.push("${env.BUILD_NUMBER}")
+                          myapp.push("latest")
+                   }
+               }
           }
         }
         stage('Deploy to GKE') {
