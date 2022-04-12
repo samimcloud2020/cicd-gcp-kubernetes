@@ -70,7 +70,7 @@ pipeline {
                 sh "gcloud iam service-accounts keys create keyfile.json --iam-account jenkinscicd@genuine-fold-316617.iam.gserviceaccount.com"
                 sh " gcloud auth activate-service-account jenkinscicd@genuine-fold-316617.iam.gserviceaccount.com --key-file=keyfile.json"
                 sh " gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io"
-                sh " gcloud beta container binauthz attestations sign-and-create --artifact-url="gcr.io/genuine-fold-316617/cicd:latest" --attestor="samim" --attestor-project="genuine-fold-316617" --keyversion-project="genuine-fold-316617" --keyversion-location="global" --keyversion-keyring="keyring5" --keyversion-key="key5" --keyversion="1" "
+                sh " gcloud beta container binauthz attestations sign-and-create --artifact-url="gcr.io/genuine-fold-316617/cicd@sha256:a629154f5512c1b6da0b293e44ff3474a3c49b88833cdc43f7cc9115271831ba" --attestor="samim" --attestor-project="genuine-fold-316617" --keyversion-project="genuine-fold-316617" --keyversion-location="global" --keyversion-keyring="keyring5" --keyversion-key="key5" --keyversion="1" "
                     
                 }
                 }
