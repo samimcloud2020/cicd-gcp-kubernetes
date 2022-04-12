@@ -36,6 +36,8 @@ pipeline {
                         sh " docker pull samimbsnl/cicd:${env.BUILD_ID}"
                         sh " docker tag samimbsnl/cicd:${env.BUILD_ID} gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}"
                         sh " gcloud auth login"
+                        sh "gcloud auth activate-service-account jenkinscicd@genuine-fold-316617.iam.gserviceaccount.com  --key-file=jenkinscicdkey.json"
+                        sh "gcloud auth configure-docker"
                         sh " docker push gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}"
                     }
                 }
