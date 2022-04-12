@@ -67,9 +67,7 @@ pipeline {
         }  
         stage('Deploy to cloudrun') {
             steps{
-                sh "sed -i 's/cicd:latest/cicd:${env.BUILD_ID}/g' deploy.yaml"
-                step([$class: 'CloudRun.Builder', projectId: env.PROJECT_ID, serviceName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deploy.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
-                
+                sh "gcloud run deploy back-end --image="gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}"   --platform=managed --region=us-central1 --port=8080"
             }
         }
         
