@@ -32,15 +32,18 @@ pipeline {
         }        
        stage('Build image Google') {
            steps {
+               script {
                sh "docker build -tag="gcr.io/genuine-fold-316617/samimcicd:v1.0.0" . -file=Dockerfile"
                    
        }
        }
        stage('Push image to GCR') {
            steps {
-               sh "docker push gcr.io/genuine-fold-316617/samimcicd:v1.0.0"
+               script {
+                   withDockerRegistry([credentialsId: "gcr: genuine-fold-316617", url: "https://gcr.io"]) {
+                       sh "docker push gcr.io/genuine-fold-316617/samimcicd:v1.0.0"
                    
-                   
+                   }     
                
           }
         }
