@@ -29,9 +29,15 @@ pipeline {
                 }
             }
         }        
-        stage('Push Image to GCR test') {
-            sh "gcloud docker -- push us.gcr.io/genuine-fold-316617/cicd"
-    }
+       stage('Build image Google') {
+           app = docker.build("genuine-fold-316617/cicd")
+       }
+       stage('Push image to GCR') {
+           docker.withRegistry('https://us.gcr.io', 'gcr:[multi-k8s]') {
+                app.push("${env.BUILD_NUMBER}")
+                app.push("latest")
+          }
+        }
         stage('Deploy to GKE') {
             steps{
                 sh "sed -i 's/cicd:latest/cicd:${env.BUILD_ID}/g' deploy.yaml"
