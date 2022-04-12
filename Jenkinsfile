@@ -33,8 +33,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
-                            myapp.pull("latest")
-                            myapp.pull("${env.BUILD_ID}")
+                        sh " docker pull samimbsnl/cicd:${env.BUILD_ID}
                     }
                 }
             }
