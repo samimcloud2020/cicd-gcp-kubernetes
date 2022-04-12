@@ -1,4 +1,3 @@
-#!groovy
 pipeline {
     agent any
     environment {
@@ -16,27 +15,27 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("gcr.io/genuine-fold-316617/samimcicd:v1.0.0")
+                    myapp = docker.build("samimbsnl/cicd:${env.BUILD_ID}")
                 }
             }
         }
-             
-       
-       stage('Push image to GCR') {
-           steps {
-               script {
-                   withDockerRegistry([credentialsId: "gcr: genuine-fold-316617", url: "https://gcr.io"]) {
-                       sh "docker push gcr.io/genuine-fold-316617/samimcicd:v1.0.0"
-                   
-                   }     
-               
-          }
-        }
-        stage('Deploy to GKE') {
-            steps{
-                sh "sed -i 's/cicd:latest/cicd:${env.BUILD_ID}/g' deploy.yaml"
-                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deploy.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+        stage("Push image to Dockerhub") {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
+                            myapp.push("latest")
+                            myapp.push("${env.BUILD_ID}")
+                    }
+                }
             }
-        }
-    }    
-}
+        }        
+        stage("Pull image to Dockerhub") {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
+                            myapp.pll("latest")
+                            myapp.pull("${env.BUILD_ID}")
+                    }
+                }
+            }
+        }        
