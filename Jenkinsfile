@@ -67,7 +67,7 @@ pipeline {
         }  
         stage('Deploy to cloudrun') {
             steps{
-                sh "gcloud run deploy back-end --image="gcr.io/genuine-fold-316617/cicd:${env.BUILD_ID}"   --platform=managed --region=us-central1 --port=8080"
+                sh "gcloud run deploy back-end --image="gcr.io/genuine-fold-316617/cicd:\${env.BUILD_ID}"   --platform=managed --region=us-central1 --port=8080"
             }
         }
         
