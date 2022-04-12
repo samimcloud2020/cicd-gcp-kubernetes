@@ -30,13 +30,7 @@ pipeline {
             }
         }        
         stage('Push Image to GCR') {
-            steps {
-                script {
-                    docker.withRegistry('https://us.gcr.io', 'multi-k8s') {
-                        dockerImage.push()
-                }
-            }
-        }
+            sh "gcloud docker -- push us.gcr.io/genuine-fold-316617/cicd"
     }
         stage('Deploy to GKE') {
             steps{
