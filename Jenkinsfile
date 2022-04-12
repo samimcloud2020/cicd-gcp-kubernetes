@@ -65,17 +65,14 @@ pipeline {
                 }
             }
         }  
-        stage("deploy cloudrun") {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
-                        sh "gcloud run deploy service1 --image="gcr.io/genuine-fold-316617/cicd@sha256:a629154f5512c1b6da0b293e44ff3474a3c49b88833cdc43f7cc9115271831ba" --platform=managed --region=us-central1 --port=8080 --allow-unauthenticated "
-                        sh "gcloud run services add-iam-policy-binding service1 --member="allUsers" --role="roles/run.invoker"" 
-                }
-                }
+        stage('Deploy to cloudrun') {
+            steps{
+                sh "sed -i 's/cicd:latest/cicd:${env.BUILD_ID}/g' deploy.yaml"
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deploy.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                sh "gcloud run deploy service1 --image="gcr.io/genuine-fold-316617/cicd@sha256:a629154f5512c1b6da0b293e44ff3474a3c49b88833cdc43f7cc9115271831ba" --platform=managed --region=us-central1 --port=8080 --allow-unauthenticated"
+                sh "gcloud run services add-iam-policy-binding service1 --member="allUsers" --role="roles/run.invoker"" 
             }
         }
-          
-                
+        
 }
 }
