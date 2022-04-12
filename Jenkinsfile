@@ -16,27 +16,12 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("samimbsnl/cicd:${env.BUILD_ID}")
+                    myapp = docker.build("gcr.io/genuine-fold-316617/samimcicd:v1.0.0")
                 }
             }
         }
-        stage("Push image to Dockerhub") {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
-                            myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
-                    }
-                }
-            }
-        }        
-       stage('Build image Google') {
-           steps {
-               script {
-               sh "docker build -tag="gcr.io/genuine-fold-316617/samimcicd:v1.0.0" . -file=Dockerfile"
-                   
-       }
-       }
+             
+       
        stage('Push image to GCR') {
            steps {
                script {
