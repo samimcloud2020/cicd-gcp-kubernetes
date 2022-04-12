@@ -15,7 +15,7 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("genuine-fold-316617/cicd:${env.BUILD_ID}")
+                    myapp = docker.build("samimbsnl/cicd:${env.BUILD_ID}")
                 }
             }
         }
