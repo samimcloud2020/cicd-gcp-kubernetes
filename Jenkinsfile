@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerid') {
-                            myapp.pll("latest")
+                            myapp.pull("latest")
                             myapp.pull("${env.BUILD_ID}")
                     }
                 }
