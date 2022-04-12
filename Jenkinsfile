@@ -39,7 +39,7 @@ pipeline {
        stage('Push image to GCR') {
            steps {
                script {
-                   docker.withRegistry('https://us.gcr.io', 'gcr:[multi-k8s]') {
+                   docker.withRegistry('https://us.gcr.io', 'gcr: multi-k8s') {
                           myapp.push("${env.BUILD_NUMBER}")
                           myapp.push("latest")
                    }
