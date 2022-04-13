@@ -7,7 +7,7 @@ pipeline {
         PROJECT_ID = 'genuine-fold-316617'
         CLUSTER_NAME = 'stagging'
         CLUSTER_NAME1 = "production"
-        LOCATION = 'us-central1-a'
+        LOCATION = 'us-central1-c'
         CREDENTIALS_ID = 'multi-k8s'
     }
     stages {
@@ -66,21 +66,25 @@ pipeline {
                 }
             }
         }  
-        stage("Deploy to GKE staging") {
-            agent {
-    	        kubernetes {
-      		    cloud 'kubernetes'
-      		    label 'gke-deploy'
-		        yamlFile 'pod.yaml'
-                }
-            }
-		                  
+	stage('Deploy to GKE Stagging') {
             steps{
-                container('gke-deploy') {
                 sh "sed -i 's/cicd:latest/cicd:${env.BUILD_ID}/g' deploy.yaml"
                 step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deploy.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
             }
         }
+	    
+       stage('Wait for SRE Approval') {
+            steps{
+                timeout(time:12, unit:'HOURS') {
+                    input message:'Approve deployment?'
+                }
+            }
         }
+	stage('Deploy to GKE Production') {
+            steps{
+                sh "sed -i 's/cicd:latest/cicd:${env.BUILD_ID}/g' deploy.yaml"
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME1, location: env.LOCATION, manifestPattern: 'deploy.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+            }
+        }    
 }
 }
