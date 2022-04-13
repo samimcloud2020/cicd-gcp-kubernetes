@@ -5,7 +5,8 @@ pipeline {
         OS = 'linux'  
         ARCH = 'amd64'  
         PROJECT_ID = 'genuine-fold-316617'
-        CLUSTER_NAME = 'cluster1'
+        CLUSTER_NAME = 'stagging'
+        CLUSTER_NAME1 = "production"
         LOCATION = 'us-central1-a'
         CREDENTIALS_ID = 'multi-k8s'
     }
@@ -65,11 +66,21 @@ pipeline {
                 }
             }
         }  
-        stage('Deploy to cloudrun') {
+        stage("Deploy to GKE staging") {
+            agent {
+    	        kubernetes {
+      		    cloud 'kubernetes'
+      		    label 'gke-deploy'
+		        yamlFile 'pod.yaml'
+                }
+            }
+		                  
             steps{
-                sh "gcloud run deploy back-end --image="gcr.io/genuine-fold-316617/cicd:\${env.BUILD_ID}"   --platform=managed --region=us-central1 --port=8080"
+                container('gke-deploy') {
+                sh "sed -i 's/cicd:latest/cicd:${env.BUILD_ID}/g' deploy.yaml"
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deploy.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
             }
         }
-        
+        }
 }
 }
