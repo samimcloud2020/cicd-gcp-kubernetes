@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: samim-container
+    image: samimbsnl/cicd:latest
+    ports:
+    - containerPort: 80
