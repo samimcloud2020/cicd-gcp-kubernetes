@@ -1,2 +1,1 @@
-# codepipeline
-codepipeline-staticwebsite
+******************************CICD PIPELINE PYTHON SOURCE CODE**********************************
